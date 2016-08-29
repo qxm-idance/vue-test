@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import { defaultProps, oneOf } from '../../utils'
+import { defaultProps, oneOf } from '../../utils';
+
 import cx from 'classnames'
 export default {
   props: defaultProps({

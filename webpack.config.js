@@ -29,23 +29,39 @@ module.exports = function cfg (){
                 loader: 'vue'
             },
             {
+                test: /\.js$/,
+                loader: 'babel!eslint',
+                // make sure to exclude 3rd party code in node_modules
+                exclude: /node_modules/
+            },
+            {
+                test: /.*\.(gif|png|jpe?g|svg)$/i,
+                loader: 'url',
+                query: {
+                    // inline files smaller then 10kb as base64 dataURL
+                    limit: 10000,
+                    // fallback to file-loader with this naming scheme
+                    name: '[name].[ext]?[hash]'
+                }
+            },
+            {
                 test: /\.less$/,
                 loader: ExtractTextPlugin.extract(
-                  'css?sourceMap&-minimize!' + 'postcss-loader!' + 'less?sourceMap'
+                    'css?sourceMap&-minimize!' + 'postcss-loader!' + 'less?sourceMap'
                 )
             },
-            {   
+            { 
                 test: /\.css$/,
                 loader: 'style-loader!css-loader'
-            },
-            { test: /\.png$/, loader: "url-loader?limit=100000" },
-            { test: /\.jpg$/, loader: "file-loader" }
+            }
         ]
     };    
     cfg.postcss = [autoprefixer];
     cfg.plugins = [
+        new ExtractTextPlugin('[name].css'),
         new HtmlWebpackPlugin({
             template:'dev/index.html',
+            filename: 'index.html',
             inject:'body'
         }) 
     ]
